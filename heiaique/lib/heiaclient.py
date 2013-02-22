@@ -28,7 +28,7 @@ class HeiaClient:
     self.consumer = oauth.Consumer(key=self.config.get('oauth', 'consumer_key'), secret=self.config.get('oauth', 'consumer_secret'))
     
     if params:
-      parameters = urllib.urlencode(params)
+      parameters = urlencode(params)
       url = url + "?" + parameters
 
     client = oauth.Client(self.consumer, self.token)
@@ -36,9 +36,9 @@ class HeiaClient:
 
     return content
   
-  def read_config(self):
+  def read_config(self, config_file):
     self.config   = SafeConfigParser()
-    if self.config.read("config.cfg"):
+    if self.config.read(config_file):
       return True
     else:
       return False
