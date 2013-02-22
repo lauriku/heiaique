@@ -1,6 +1,9 @@
 heiaique
 ========
 
-heiaique
+A python command line client for HeiaHeia
 
-to test HeiaHeia API
+Why?
+=======
+
+Because.
