@@ -9,23 +9,23 @@ class HeiaClient:
     pass
 
   def list_sports(self):
-    return self.__api_request(self.config.get("heiaheia", "sports_url"), method='GET')
+    return self.__api_request(self.config.get("heiaheia", "sports_url"))
 
   def find_sport(self, id):
     '''Silly API, can't pass the id as an actual http parameter.'''
     url = self.config.get("heiaheia", "sports_url") + id
-    return self.__api_request(url, method='GET')
+    return self.__api_request(url)
 
   def get_training_logs(self):
-    return self.__api_request(self.config.get("heiaheia", "training_logs_url"), method='GET')
+    return self.__api_request(self.config.get("heiaheia", "training_logs_url"))
 
   def get_training_logs_by_date(self, date):
     params = {'date': date}
-    return self.__api_request(self.config.get("heiaheia", "training_logs_url"), method='GET', params)
+    return self.__api_request(self.config.get("heiaheia", "training_logs_url"), params)
 
   def get_training_logs_by_year(self, year):
     params = {'year': year}
-    return self.__api_request(self.config.get("heiaheia", "training_logs_url"), method='GET', params)
+    return self.__api_request(self.config.get("heiaheia", "training_logs_url"), params)
 
   def read_config(self, config_file):
     self.config = SafeConfigParser()
@@ -34,7 +34,7 @@ class HeiaClient:
     else:
       return False
 
-  def __api_request(self, url, method, params=None):
+  def __api_request(self, url, method="GET", params=None):
     self.token    = oauth.Token(key=self.config.get('oauth', 'token'), secret=self.config.get('oauth', 'token_secret'))
     self.consumer = oauth.Consumer(key=self.config.get('oauth', 'consumer_key'), secret=self.config.get('oauth', 'consumer_secret'))
     
@@ -43,7 +43,7 @@ class HeiaClient:
       url = url + "?" + parameters
 
     client = oauth.Client(self.consumer, self.token)
-    response, content = client.request(url, method='GET')
+    response, content = client.request(url, method)
 
     return content
   
