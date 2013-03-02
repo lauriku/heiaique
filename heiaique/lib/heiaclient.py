@@ -8,22 +8,33 @@ class HeiaClient:
   def __init__(self):
     pass
 
-  def list_sports(self, page=None):
-    if page:
-      params = {'page': page}
+  def list_sports(self):
+    return self.__api_request(self.config.get("heiaheia", "sports_url"), method='GET')
 
-    return self.__api_request(self.config.get("heiaheia", "sports_url"), page)
+  def find_sport(self, id):
+    '''Silly API, can't pass the id as an actual http parameter.'''
+    url = self.config.get("heiaheia", "sports_url") + id
+    return self.__api_request(url, method='GET')
 
-  def find_sport_by_id(self, id):
-    pass
+  def get_training_logs(self):
+    return self.__api_request(self.config.get("heiaheia", "training_logs_url"), method='GET')
 
   def get_training_logs_by_date(self, date):
-    pass
+    params = {'date': date}
+    return self.__api_request(self.config.get("heiaheia", "training_logs_url"), method='GET', params)
 
   def get_training_logs_by_year(self, year):
-    pass
+    params = {'year': year}
+    return self.__api_request(self.config.get("heiaheia", "training_logs_url"), method='GET', params)
 
-  def __api_request(self, url, params=None):
+  def read_config(self, config_file):
+    self.config = SafeConfigParser()
+    if self.config.read(config_file):
+      return True
+    else:
+      return False
+
+  def __api_request(self, url, method, params=None):
     self.token    = oauth.Token(key=self.config.get('oauth', 'token'), secret=self.config.get('oauth', 'token_secret'))
     self.consumer = oauth.Consumer(key=self.config.get('oauth', 'consumer_key'), secret=self.config.get('oauth', 'consumer_secret'))
     
@@ -36,9 +47,4 @@ class HeiaClient:
 
     return content
   
-  def read_config(self, config_file):
-    self.config   = SafeConfigParser()
-    if self.config.read(config_file):
-      return True
-    else:
-      return False
+
