@@ -17,5 +17,11 @@ if __name__ == '__main__':
   if not client.read_config(config_file):
     sys.exit("Config file not found.")
 
+  if opts.get_training_logs:
+    print client.get_training_logs()
+
+  if opts.list_sports:
+    print client.list_sports()
+
 
 
