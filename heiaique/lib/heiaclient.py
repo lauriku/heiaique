@@ -35,14 +35,14 @@ class HeiaClient:
       return False
 
   def __api_request(self, url, method="GET", params=None):
-    self.token    = oauth.Token(key=self.config.get('oauth', 'token'), secret=self.config.get('oauth', 'token_secret'))
-    self.consumer = oauth.Consumer(key=self.config.get('oauth', 'consumer_key'), secret=self.config.get('oauth', 'consumer_secret'))
+    token    = oauth.Token(key=self.config.get('oauth', 'token'), secret=self.config.get('oauth', 'token_secret'))
+    consumer = oauth.Consumer(key=self.config.get('oauth', 'consumer_key'), secret=self.config.get('oauth', 'consumer_secret'))
     
     if params:
       parameters = urlencode(params)
       url = url + "?" + parameters
 
-    client = oauth.Client(self.consumer, self.token)
+    client = oauth.Client(consumer, token)
     response, content = client.request(url, method)
 
     return content
