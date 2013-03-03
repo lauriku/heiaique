@@ -13,8 +13,9 @@ if __name__ == '__main__':
 
   main_path = os.path.dirname(os.path.abspath(__file__))
   config_file = os.path.join(main_path, "config.cfg")
-  if opts.sport_list:
-    if client.read_config(config_file):
-      print client.list_sports()
-    else:
-      print "Config file not found!"
+  
+  if not client.read_config(config_file):
+    sys.exit("Config file not found.")
+
+
+
