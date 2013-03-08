@@ -27,6 +27,10 @@ class HeiaClient:
     params = {'year': year}
     return self.__api_request(self.config.get("heiaheia", "training_logs_url"), params)
 
+  def post_training_logs(self, params = {}):
+    method = "POST"
+    return self.__api_request(self.config.get("heiaheia", "training_logs_url"), method, params)
+
   def read_config(self, config_file):
     self.config = SafeConfigParser()
     if self.config.read(config_file):
