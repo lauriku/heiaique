@@ -18,7 +18,12 @@ if __name__ == '__main__':
     sys.exit("Config file not found.")
 
   if opts.get_training_logs:
-    print client.get_training_logs()
+    if opts.date:
+      print client.get_training_logs_by_date(opts.date)
+    elif opts.year:
+      print client.get_training_logs_by_year(opts.year)
+    else:
+      print client.get_training_logs()
 
   if opts.list_sports:
     print client.list_sports()
