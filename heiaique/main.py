@@ -2,7 +2,7 @@ import os
 import sys
 
 from lib import HeiaClient
-from lib import XMLParser
+from lib import Parser
 from lib import Options
 
 if __name__ == '__main__':

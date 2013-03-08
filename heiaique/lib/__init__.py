@@ -1,3 +1,3 @@
 from heiaclient import HeiaClient
-from xmlparser  import XMLParser
+from parser     import Parser
 from options    import Options
