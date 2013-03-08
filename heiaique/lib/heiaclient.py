@@ -29,7 +29,7 @@ class HeiaClient:
 
   def post_training_logs(self, params = {}):
     method = "POST"
-    return self.__api_request(self.config.get("heiaheia", "training_logs_url"), method, params)
+    return self.__api_request(self.config.get("heiaheia", "training_logs_url"), params, method)
 
   def read_config(self, config_file):
     self.config = SafeConfigParser()
@@ -38,7 +38,7 @@ class HeiaClient:
     else:
       return False
 
-  def __api_request(self, url, method="GET", params=None):
+  def __api_request(self, url, params=None, method="GET"):
     token    = oauth.Token(key=self.config.get('oauth', 'token'), secret=self.config.get('oauth', 'token_secret'))
     consumer = oauth.Consumer(key=self.config.get('oauth', 'consumer_key'), secret=self.config.get('oauth', 'consumer_secret'))
     
