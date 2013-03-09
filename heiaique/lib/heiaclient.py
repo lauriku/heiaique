@@ -10,12 +10,14 @@ class HeiaClient:
     self.parser = Parser()
 
   def list_sports(self):
-    return self.__api_request(self.config.get("heiaheia", "sports_url"))
+    xml = self.__api_request(self.config.get("heiaheia", "sports_url"))
+    return self.parser.parse_sport_list(xml)
 
   def find_sport(self, id):
     '''Silly API, can't pass the id as an actual http parameter.'''
     url = self.config.get("heiaheia", "sports_url") + id
-    return self.__api_request(url)
+    xml = self.__api_request(url)
+    return self.parser.parse_single_sport(xml)
 
   def get_training_logs(self):
     xml = self.__api_request(self.config.get("heiaheia", "training_logs_url"))
