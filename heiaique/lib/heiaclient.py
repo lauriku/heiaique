@@ -2,11 +2,12 @@ import oauth2 as oauth
 
 from ConfigParser import SafeConfigParser
 from urllib       import urlencode
+from parser       import Parser
 
 class HeiaClient:
   
   def __init__(self):
-    pass
+    self.parser = Parser()
 
   def list_sports(self):
     return self.__api_request(self.config.get("heiaheia", "sports_url"))
@@ -17,15 +18,18 @@ class HeiaClient:
     return self.__api_request(url)
 
   def get_training_logs(self):
-    return self.__api_request(self.config.get("heiaheia", "training_logs_url"))
+    xml = self.__api_request(self.config.get("heiaheia", "training_logs_url"))
+    return self.parser.parse_training_logs(xml)
 
   def get_training_logs_by_date(self, date):
     params = {'date': date}
-    return self.__api_request(self.config.get("heiaheia", "training_logs_url"), params)
+    xml = self.__api_request(self.config.get("heiaheia", "training_logs_url"), params)
+    return self.parser.parse_training_logs(xml)
 
   def get_training_logs_by_year(self, year):
     params = {'year': year}
-    return self.__api_request(self.config.get("heiaheia", "training_logs_url"), params)
+    xml = self.__api_request(self.config.get("heiaheia", "training_logs_url"), params)
+    return self.parser.parse_training_logs(xml)
 
   def post_training_logs(self, params = {}):
     method = "POST"
