@@ -19,6 +19,7 @@ class Parser:
       training_log[elem.tag] = text
       if elem.tag == "training-log":
         training_log_entries.append(training_log)
+        training_log = {}
     return training_log_entries
 
 
