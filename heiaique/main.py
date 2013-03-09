@@ -10,6 +10,7 @@ if __name__ == '__main__':
   opts, args = options.parse(sys.argv[1:])
 
   client = HeiaClient()
+  parser = Parser()
 
   main_path = os.path.dirname(os.path.abspath(__file__))
   config_file = os.path.join(main_path, "config.cfg")
@@ -21,7 +22,11 @@ if __name__ == '__main__':
     if opts.date:
       print client.get_training_logs_by_date(opts.date)
     elif opts.year:
-      print client.get_training_logs_by_year(opts.year)
+      raw = client.get_training_logs_by_year(opts.year)
+      parsed = parser.parse_training_logs(raw)
+      for log in parsed:
+        for item in log:
+          print log
     else:
       print client.get_training_logs()
 
