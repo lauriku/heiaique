@@ -8,50 +8,48 @@ class Parser:
 
   def parse_sport_list(self, data):
     file_like_object = BytesIO(data)
-    context = etree.iterparse(file_like_object)
-    sport = {}
-    sportlist = []
-    for action, elem in context:
-      if not elem.text or elem.text.isspace():
-        text = None
-      else:
-        text = elem.text
-        sport[elem.tag] = text
-      if elem.tag == "sport":
-        sportlist.append(sport)
-        sport = {}
-    return sportlist
+    xml_data = etree.parse(file_like_object)
+    
+    sports = xml_data.findall("sport")
+
+    sport_list = []
+    sport_entry = {}
+
+    for sport in sports:
+      sport_entry["id"]   = sport.findtext("id")
+      sport_entry["name"] = sport.findtext("name")
+      sport_list.append(sport_entry)
+      sport_entry = {}
+
+    return sport_list
+
 
   def parse_single_sport(self, data):
     file_like_object = BytesIO(data)
-    context = etree.iterparse(file_like_object)
-    sport = {}
-    for action, elem in context:
-      if not elem.text or elem.text.isspace():
-        text = None
-      else:
-        text = elem.text
-        sport[elem.tag] = text
+    xml_data = etree.parse(file_like_object)
+    sport = xml_data.findtext("name")
     return sport
 
   def parse_training_logs(self, data):
-    """Parse the xml from HeiaHeia into a list of training entries, 
-    each training entry as a dictionary"""
-
     file_like_object = BytesIO(data)
-    context = etree.iterparse(file_like_object)
-    training_log = {}
-    training_log_entries = []
-    for action, elem in context:
-      if not elem.text or elem.text.isspace():
-        text = None
-      else:
-        text = elem.text
-      training_log[elem.tag] = text
-      if elem.tag == "training-log":
-        training_log_entries.append(training_log)
-        training_log = {}
-    return training_log_entries
+    xml_data = etree.parse(file_like_object)
+
+    training_logs = xml_data.findall("//training-log")
+
+    log_list = []
+    log_entry = {}
+
+    for log in training_logs:
+      log_entry["sport_id"]   = log.findtext("sport-id")
+      log_entry["date"]       = log.findtext("created-at")
+      log_entry["duration_h"] = log.findtext("duration-h")
+      log_entry["duration_m"] = log.findtext("duration-m")
+      log_entry["notes"]      = log.findtext("notes")
+      log_list.append(log_entry)
+      log_entry = {}
+
+    return log_list
+
 
 
 
