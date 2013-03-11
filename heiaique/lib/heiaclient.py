@@ -9,8 +9,9 @@ class HeiaClient:
   def __init__(self):
     self.parser = Parser()
 
-  def list_sports(self):
-    xml = self.__api_request(self.config.get("heiaheia", "sports_url"))
+  def list_sports(self, page):
+    params = { 'page': page }
+    xml = self.__api_request(self.config.get("heiaheia", "sports_url"), params)
     return self.parser.parse_sport_list(xml)
 
   def find_sport(self, id):
@@ -25,6 +26,7 @@ class HeiaClient:
 
   def get_training_logs_by_date(self, date):
     params = {'date': date}
+    print params
     xml = self.__api_request(self.config.get("heiaheia", "training_logs_url"), params)
     return self.parser.parse_training_logs(xml)
 

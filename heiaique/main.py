@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 
 from lib import HeiaClient
 from lib import Options
@@ -25,7 +26,17 @@ if __name__ == '__main__':
         print client.find_sport(log["sport_id"]), log["duration_h"] + ":" + log["duration_m"]
 
   if opts.list_sports:
-    print client.list_sports()
+    page = 1
+    sports_dict = {}
+    while(True):
+      sports = client.list_sports(page)
+      if not sports:
+        break
+      for sport in sports:
+        sports_dict[sport["id"]] = sport["name"]
+      page = page+1
 
+    with open('sports.json', 'w') as outfile:
+      json.dump(sports_dict, outfile)
 
 
