@@ -22,5 +22,4 @@ if __name__ == '__main__':
 
   if opts.list_sports:
     sports_list = sports.list()
-    for sport in sports_list:
-      print sport["name"]
+    print sports_list

@@ -15,7 +15,7 @@ class HeiaClient:
     xml = self.__api_request(self.config.get("heiaheia", "sports_url"), params)
     return self.parser.parse_sport_list(xml)
 
-  def find_sport(self, id):
+  def get_sport(self, id):
     '''Silly API, can't pass the id as an actual http parameter.'''
     url = self.config.get("heiaheia", "sports_url") + id
     xml = self.__api_request(url)
