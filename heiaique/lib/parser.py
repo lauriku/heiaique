@@ -9,17 +9,13 @@ class Parser:
   def parse_sport_list(self, data):
     file_like_object = BytesIO(data)
     xml_data = etree.parse(file_like_object)
-    
+
     sports = xml_data.findall("sport")
 
-    sport_list = []
-    sport_entry = {}
+    sport_list = {}
 
     for sport in sports:
-      sport_entry["id"]   = sport.findtext("id")
-      sport_entry["name"] = sport.findtext("name")
-      sport_list.append(sport_entry)
-      sport_entry = {}
+      sport_list[sport.findtext("id")] = sport.findtext("name")
 
     return sport_list
 

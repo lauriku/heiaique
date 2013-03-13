@@ -18,7 +18,7 @@ if __name__ == '__main__':
     elif opts.year:
       logs = client.get_training_logs_by_year(opts.year)
       for log in logs:
-        print client.find_sport(log["sport_id"]), log["duration_h"] + ":" + log["duration_m"]
+        print sports.find(log["sport_id"]), log["duration_h"] + ":" + log["duration_m"]
 
   if opts.list_sports:
     sports_list = sports.list()

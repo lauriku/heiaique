@@ -20,16 +20,24 @@ class Sports:
     except IOError as e:
       print e
 
+  def find(self, sport_id):
+    try:
+      with open(self.sports_file, 'r') as f:
+        sports_list = json.load(f)
+        return sports_list[sport_id]
+
+    except IOError as e:
+      print e
+
   def save_sports_to_file(self):
       client = HeiaClient()
       page = 1
-      sport_list = []
+      sport_list = {}
       while(True):
         sport_page = client.get_sports(page)
         if not sport_page:
           break
-        for sport in sport_page:
-          sport_list.append(sport)
+        sport_list.update(sport_page)
         page = page+1
 
         try:
