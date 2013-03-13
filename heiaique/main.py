@@ -1,5 +1,6 @@
 import os
 import sys
+import pprint
 
 from lib import HeiaClient
 from lib import Options
@@ -22,4 +23,5 @@ if __name__ == '__main__':
 
   if opts.list_sports:
     sports_list = sports.list()
-    print sports_list
+    for id in sports_list:
+      print sports_list[id]
