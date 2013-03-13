@@ -36,7 +36,7 @@ class HeiaClient:
     xml = self.__api_request(self.config.get("heiaheia", "training_logs_url"), params)
     return self.parser.parse_training_logs(xml)
 
-  def post_training_logs(self, params = {}):
+  def post_training_log(self, params = {}):
     method = "POST"
     return self.__api_request(self.config.get("heiaheia", "training_logs_url"), params, method)
 
