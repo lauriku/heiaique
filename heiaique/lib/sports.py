@@ -23,16 +23,17 @@ class Sports:
   def save_sports_to_file(self):
       client = HeiaClient()
       page = 1
-      sports = {}
+      sport_list = []
       while(True):
         sport_page = client.get_sports(page)
         if not sport_page:
           break
         for sport in sport_page:
-          sports[sport["id"]] = sport["name"]
+          sport_list.append(sport)
         page = page+1
+
         try:
           with open(self.sports_file, 'w') as outfile:
-            json.dump(sports, outfile)
+            json.dump(sport_list, outfile)
         except IOError as e:
           print "Unable to write sports file."
