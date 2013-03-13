@@ -1,15 +1,16 @@
 import oauth2 as oauth
 
-from ConfigParser import SafeConfigParser
 from urllib       import urlencode
 from parser       import Parser
+from config       import Config
 
 class HeiaClient:
-  
+
   def __init__(self):
     self.parser = Parser()
+    self.config = Config()
 
-  def list_sports(self, page):
+  def get_sports(self, page):
     params = { 'page': page }
     xml = self.__api_request(self.config.get("heiaheia", "sports_url"), params)
     return self.parser.parse_sport_list(xml)
@@ -39,17 +40,10 @@ class HeiaClient:
     method = "POST"
     return self.__api_request(self.config.get("heiaheia", "training_logs_url"), params, method)
 
-  def read_config(self, config_file):
-    self.config = SafeConfigParser()
-    if self.config.read(config_file):
-      return True
-    else:
-      return False
-
   def __api_request(self, url, params=None, method="GET"):
     token    = oauth.Token(key=self.config.get('oauth', 'token'), secret=self.config.get('oauth', 'token_secret'))
     consumer = oauth.Consumer(key=self.config.get('oauth', 'consumer_key'), secret=self.config.get('oauth', 'consumer_secret'))
-    
+
     if params:
       parameters = urlencode(params)
       url = url + "?" + parameters
@@ -58,5 +52,5 @@ class HeiaClient:
     response, content = client.request(url, method)
 
     return content
-  
+
 
