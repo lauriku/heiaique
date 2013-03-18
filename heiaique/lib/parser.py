@@ -1,7 +1,7 @@
 from lxml     import etree
 from io       import BytesIO
-from time     import strptime
-from datetime import time, date
+from time     import strptime, mktime
+from datetime import time, date, datetime
 
 class Parser:
 
@@ -38,11 +38,11 @@ class Parser:
     log_entry = {}
 
     for log in training_logs:
-      created_at = strptime(log.findtext("created-at"), "%Y-%m-%d %H:%M:%S")
-
-      duration = time(int(log.findtext("duration-h")), int(log.findtext("duration-m")), int(log.findtext("duration-s")))
-      d        = log.findtext("date").split("-")
-      log_date = date(int(d[0]), int(d[1]), int(d[2]))
+      time_struct = strptime(log.findtext("created-at"), "%Y-%m-%d %H:%M:%S")
+      created_at  = datetime.fromtimestamp(mktime(time_struct))
+      duration    = time(int(log.findtext("duration-h")), int(log.findtext("duration-m")), int(log.findtext("duration-s")))
+      d           = log.findtext("date").split("-")
+      log_date    = date(int(d[0]), int(d[1]), int(d[2]))
 
       log_entry["sport_id"]   = log.findtext("sport-id")
       log_entry["date"]       = log_date
