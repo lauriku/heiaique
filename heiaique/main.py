@@ -7,10 +7,12 @@ from datetime import datetime
 from lib import HeiaClient
 from lib import Options
 from lib import Sports
+from lib import UserInput
 
 if __name__ == '__main__':
   options = Options()
   opts, args = options.parse(sys.argv[1:])
+  user_input = UserInput()
 
   client = HeiaClient()
   sports = Sports()
@@ -29,3 +31,6 @@ if __name__ == '__main__':
     sports_list = sports.list()
     for id in sports_list:
       print sports_list[id]
+
+  if opts.post_log:
+    user_input("")
